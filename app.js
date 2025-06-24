@@ -17,7 +17,7 @@ import { SupportRoute } from './routes/support.routes.js';
 import { PymentRoute } from './routes/payment.routes.js';
 import { AirlinemarkupRoute } from './routes/airmarkup.routes.js';
 import { CoupenRoute } from './routes/coupen.routes.js';
-import { hotel_router } from './routes/trip.hotel.routes.js';
+import { HotelRouter } from './routes/trip.hotel.routes.js';
 const app = express();
 
 app.use(morgan('dev')); // Logging middleware (should be first to log all requests)
@@ -54,6 +54,6 @@ app.use('/support', SupportRoute);
 app.use('/payment', PymentRoute);
 app.use('/markup/air', AirlinemarkupRoute);
 app.use('/coupen', CoupenRoute);
-app.use('/hotel/v1', hotel_router);
+app.use('/hotel/v1', HotelRouter);
 
 export { app };

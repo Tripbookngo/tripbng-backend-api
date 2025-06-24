@@ -9,3 +9,7 @@ These are usually business logic or interaction-related functions.
 Utility/helper functions should be named in camelCase.
 
 These functions are generally reusable, low-level helpers.
+
+
+-- use npm run prettier --write .   using this command you can formate the code
+

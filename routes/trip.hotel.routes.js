@@ -20,4 +20,4 @@ router.route('/tripjack/confirm_hold_booking').post(confirmHoldBooking);
 router.route('/tripjack/booking_details').post(bookingDetails);
 router.route('/tripjack/booking_cancellation').post(bookingCancellation);
 
-export const hotel_router = router;
+export const HotelRouter = router;
