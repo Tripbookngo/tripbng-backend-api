@@ -1,24 +1,23 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
+const OtpvrfSchema = mongoose.Schema(
+  {
+    veryficationType: {
+      type: String,
+      enum: ['phone', 'email', 'pan', 'adhar', 'login', 'delete'],
+      required: true,
+    },
 
-const OtpvrfSchema = mongoose.Schema({
+    veryficationFeild: {
+      type: String,
+      required: true,
+    },
+    otp: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-   veryficationType:{
-    type:String,
-    enum:['phone' , 'email' , 'pan' , 'adhar' , 'login' , 'delete'],
-    required:true
-   },
-
-   veryficationFeild:{
-    type:String,
-    required:true
-   },
-   otp:{
-    type:String,
-    required:true
-   }
-
-
-},{ timestamps:true })
-
-export const OtpVfy = mongoose.model("OtpVfy" , OtpvrfSchema)
+export const OtpVfy = mongoose.model('OtpVfy', OtpvrfSchema);

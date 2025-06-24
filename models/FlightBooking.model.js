@@ -1,39 +1,39 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
+const flightBookingDataSchema = mongoose.Schema(
+  {
+    UserId: {
+      type: String,
+      required: true,
+    },
+    ContactDetails: {
+      type: String,
+      required: true,
+    },
+    UserType: {
+      type: String,
+      required: true,
+    },
+    BookingRefNum: {
+      type: String,
+      require: true,
+    },
 
-const flightBookingDataSchema =  mongoose.Schema({
-    UserId:{
-        type:String,
-        required:true
+    Pax: {
+      type: String,
     },
-    ContactDetails :{
-        type:String,
-        required:true
+    BookingStatus: {
+      type: Boolean,
     },
-    UserType:{
-        type:String,
-        required:true
+    TravelDate: {
+      type: String,
     },
-    BookingRefNum:{
-        type:String,
-        require:true
+    Pnr: {
+      type: String,
+      required: false,
     },
+  },
+  { timestamps: true }
+);
 
-    Pax:{
-        type:String
-    },
-    BookingStatus:{
-        type:Boolean
-    },
-    TravelDate:{
-        type:String
-    },
-    Pnr:{
-        type:String,
-        required:false
-    }
-    
-    
-},{timestamps:true})
-
-export const flightbookingdata = mongoose.model("flightbookingdata",flightBookingDataSchema);
+export const flightbookingdata = mongoose.model('flightbookingdata', flightBookingDataSchema);

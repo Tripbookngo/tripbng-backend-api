@@ -5,48 +5,48 @@ import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 
 export const generateToken = (userid) => {
-	const token = jwt.sign(userid, process.env.JWT_SECRET);
-	return token;
+  const token = jwt.sign(userid, process.env.JWT_SECRET);
+  return token;
 };
 
 export const hashPassword = (password) => {
-	const hashedPassword = bcrypt.hashSync(password, 8);
-	return hashedPassword;
+  const hashedPassword = bcrypt.hashSync(password, 8);
+  return hashedPassword;
 };
 
 export const verifyPassword = (password, hashedPassword) => {
-	return bcrypt.compareSync(password, hashedPassword);
+  return bcrypt.compareSync(password, hashedPassword);
 };
 
 export const successMessage = (message, payload = true) => {
-	return {
-		success: true,
-		message,
-		data: payload,
-	};
+  return {
+    success: true,
+    message,
+    data: payload,
+  };
 };
 
 export const errorMessage = (error) => {
-	return {
-		success: false,
-		error,
-	};
+  return {
+    success: false,
+    error,
+  };
 };
 
 export const authHeaders = () => {
-	return {
-		UserId: process.env.LIVE_FLIGHT_ID,
-		Password: process.env.LIVE_FLIGHT_PASS,
-		IP_Address: process.env.ETRAV_IP,
-		Request_Id: process.env.ETRAV_REQUESTID,
-		IMEI_Number: process.env.ETRAV_IMEI_NO,
-	};
+  return {
+    UserId: process.env.LIVE_FLIGHT_ID,
+    Password: process.env.LIVE_FLIGHT_PASS,
+    IP_Address: process.env.ETRAV_IP,
+    Request_Id: process.env.ETRAV_REQUESTID,
+    IMEI_Number: process.env.ETRAV_IMEI_NO,
+  };
 };
 
 export const isValidMongoObjectId = (id) => {
-	return mongoose.Types.ObjectId.isValid(id);
+  return mongoose.Types.ObjectId.isValid(id);
 };
 
 export const isNonEmptyArray = (arr) => {
-	return arr && Array.isArray(arr) && arr.length > 0;
+  return arr && Array.isArray(arr) && arr.length > 0;
 };

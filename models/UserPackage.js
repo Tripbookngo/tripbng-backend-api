@@ -1,45 +1,42 @@
-import mongoose from "mongoose";
-import DMC from "./DMC.js"
-import { sendMail } from "../utils/sendMail.js"
+import mongoose from 'mongoose';
+import DMC from './DMC.js';
+import { sendMail } from '../utils/sendMail.js';
 
-
-const userPackageSchema = new mongoose.Schema({
-
+const userPackageSchema = new mongoose.Schema(
+  {
     username: {
-        type: String
+      type: String,
     },
     Usertype: {
-        type: String
+      type: String,
     },
     destination: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     nights: {
-        type: String
+      type: String,
     },
     days: {
-        type: String
+      type: String,
     },
     hotel_type: {
-        type: String
-
+      type: String,
     },
     discription: {
-        type: String
+      type: String,
     },
-    email:{
-        type:String,
-        required:true
+    email: {
+      type: String,
+      required: true,
     },
-    mobile:{
-        type:String,
-        required:true
-    }
-
-
-}, { timestamps: true })
-
+    mobile: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
 // userPackageSchema.models.information = async (subject, context) => {
 //     const AllDmcMember = await DMC.find({}).select("email mobile -_id")
@@ -53,5 +50,4 @@ const userPackageSchema = new mongoose.Schema({
 
 // })
 
-
-export const userPackage = mongoose.model("userPackage", userPackageSchema);
+export const userPackage = mongoose.model('userPackage', userPackageSchema);
