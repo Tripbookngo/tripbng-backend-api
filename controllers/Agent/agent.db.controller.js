@@ -1,14 +1,14 @@
 import { ApiResponse } from "../../utils/ApiResponse.js"
 import { generateOTP } from "../../utils/generateOtp.js"
 import { sendMail } from "../../utils/sendMail.js"
-import { AsnycHandler } from "../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
 import { OtpVfy } from "../../models/Agent_Cp/OtpVfy.models.js"
-import { isNull } from "../../utils/FormCheck.js"
+import { isNull } from "../../utils/formCheck.js"
 import { Agent } from "../../models/Agent_Cp/Agent.models.js"
 import { sendSMS } from "../../utils/SMS.js"
 
 
-const GetAgentProfile = AsnycHandler(async(req ,res)=>{
+const GetAgentProfile = asyncHandler(async(req ,res)=>{
     const agent = req.user;
     if(!agent)
     {
@@ -23,7 +23,7 @@ const GetAgentProfile = AsnycHandler(async(req ,res)=>{
 
 })
 
-const GetAgentUrl = AsnycHandler(async(req ,res)=>{
+const GetAgentUrl = asyncHandler(async(req ,res)=>{
     const user = req.user
     const id = req.params.id;
     if(!id)

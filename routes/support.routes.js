@@ -1,4 +1,4 @@
-import {AddQuery} from "../controllers/support/support.controller.js"
+import {AddQuery} from "../controllers/Support/support.controller.js"
 import {Router} from "express";
 
 const router = Router();

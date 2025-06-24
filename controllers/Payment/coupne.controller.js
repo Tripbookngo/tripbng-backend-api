@@ -1,5 +1,5 @@
 import { Coupun } from "../../models/Coupn.models.js";
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 
 
@@ -26,7 +26,7 @@ async function returnFunction() {
     }
 }
 
-const CreateCoupne = AsnycHandler(async (req, res) => {
+const CreateCoupne = asyncHandler(async (req, res) => {
     const { discount } = req.body;
 
     const cop = returnFunction();
@@ -46,7 +46,7 @@ const CreateCoupne = AsnycHandler(async (req, res) => {
         )
 })
 
-const UseCoupne = AsnycHandler(async (req, res) => {
+const UseCoupne = asyncHandler(async (req, res) => {
     const { coupen_code, amount } = req.body;
     if (!coupen_code) {
         return res.status(400)
@@ -90,7 +90,7 @@ const UseCoupne = AsnycHandler(async (req, res) => {
 
 })
 
-const DisableCoupen = AsnycHandler(async (req, res) => {
+const DisableCoupen = asyncHandler(async (req, res) => {
     const { id } = req.body;
     if (!id) {
         return res.status(400)
@@ -112,7 +112,7 @@ const DisableCoupen = AsnycHandler(async (req, res) => {
     }
 })
 
-const GetAllCoupenCode = AsnycHandler(async(req,res)=>{
+const GetAllCoupenCode = asyncHandler(async(req,res)=>{
     const userid = req.user._id;
 
     const findcoupen = await Coupun.findById(userid);

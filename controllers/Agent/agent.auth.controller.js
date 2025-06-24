@@ -1,9 +1,9 @@
 import { ApiResponse } from "../../utils/ApiResponse.js"
 import { generateOTP } from "../../utils/generateOtp.js"
 import { sendMail } from "../../utils/sendMail.js"
-import { AsnycHandler } from "../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
 import { OtpVfy } from "../../models/Agent_Cp/OtpVfy.models.js"
-import { isNull } from "../../utils/FormCheck.js"
+import { isNull } from "../../utils/formCheck.js"
 import { Agent } from "../../models/Agent_Cp/Agent.models.js"
 import { sendSMS } from "../../utils/SMS.js"
 
@@ -14,7 +14,7 @@ const options = {
 
 
 //This controller Send User To Otp for a email veryfication
-const SendMail = AsnycHandler(async (req, res) => {
+const SendMail = asyncHandler(async (req, res) => {
     const Mail = req.body;
 
     if (!Mail) {
@@ -59,7 +59,7 @@ TripBnG India Private Limited`);
 
 })
 //This controller Send user to otp on the sms
-const SendSmsOtp = AsnycHandler(async (req, res) => {
+const SendSmsOtp = asyncHandler(async (req, res) => {
     const { phone } = req.body;
     
 
@@ -90,7 +90,7 @@ const SendSmsOtp = AsnycHandler(async (req, res) => {
 
 })
 //this controller The veryfie the otp which is send to the user 
-const CheckOtp = AsnycHandler(async (req, res) => {
+const CheckOtp = asyncHandler(async (req, res) => {
     const { type, field, otp } = req.body;
     if (isNull[type, field, otp]) {
         return res.status(400)
@@ -129,7 +129,7 @@ const CheckOtp = AsnycHandler(async (req, res) => {
 //Adhar and pan vrfication leter........
 
 
-const Register = AsnycHandler(async(req ,res)=>{
+const Register = asyncHandler(async(req ,res)=>{
     const {agencyName,mobile,email,country,state,city,pincode,address1,address2,address3,adharNumber,gstNumber,condition,password} = req.body;
 
     if(isNull([agencyName , mobile , email  , country , state , city , pincode , address1 , address2 , address3 , adharNumber , gstNumber,password]))
@@ -174,7 +174,7 @@ const Register = AsnycHandler(async(req ,res)=>{
 
 })
 
-const Login = AsnycHandler(async(req,res)=>
+const Login = asyncHandler(async(req,res)=>
 {
     let type = 'login'
     const {contactfield , password} = req.body;
@@ -241,7 +241,7 @@ const Login = AsnycHandler(async(req,res)=>
     }
 })
 
-const LoginVrfy = AsnycHandler(async(req,res)=>
+const LoginVrfy = asyncHandler(async(req,res)=>
 {
     const { type, field, otp } = req.body;
     if (isNull[type, field, otp]) {

@@ -1,7 +1,7 @@
 import {CreateCoupne,
     UseCoupne,
     DisableCoupen,
-    GetAllCoupenCode} from "../controllers/pyment/coupne.controller.js"
+    GetAllCoupenCode} from "../controllers/Payment/coupne.controller.js"
 import {Router} from 'express';
 import {UserVerify} from "../middlewares/Uservrfy.js"
 

@@ -1,4 +1,4 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { Query } from "../../models/query.model.js";
 import {BusBooking} from "../../models/BusBooking.models.js"
@@ -6,7 +6,7 @@ import {BusBooking} from "../../models/BusBooking.models.js"
 
 
 
-const GetBusBookingDetails = AsnycHandler(async (req, res) => {
+const GetBusBookingDetails = asyncHandler(async (req, res) => {
     const allBooking = await BusBooking.find({});
         if(allBooking.length <1)
         {
@@ -22,7 +22,7 @@ const GetBusBookingDetails = AsnycHandler(async (req, res) => {
         )
 })
 
-const GetQuiryBus = AsnycHandler(async (req, res) => {
+const GetQuiryBus = asyncHandler(async (req, res) => {
 
     const allQuiries = await Query.find({query_for:'bus'});
     if (!allQuiries) {
@@ -37,7 +37,7 @@ const GetQuiryBus = AsnycHandler(async (req, res) => {
 
 })
 
-const ReplayQuiryBus = AsnycHandler(async (req, res) => {
+const ReplayQuiryBus = asyncHandler(async (req, res) => {
     const { query_id, reply } = req.body;
     if (!query_id || !reply) {
         return res.status(400)

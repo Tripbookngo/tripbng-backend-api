@@ -1,9 +1,9 @@
 import { SubAdmin } from "../../models/SubAdmin.models.js";
-import { AsnycHandler } from "../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
 import { ApiResponse } from "../../utils/ApiResponse.js"
 // import { Flight } from "../../models/Flight"
 
-const loginSubAdmin = AsnycHandler(async (req, res) => {
+const loginSubAdmin = asyncHandler(async (req, res) => {
     const { email, password } = req.data;
     if (!email || !password) {
         return res.status(400)

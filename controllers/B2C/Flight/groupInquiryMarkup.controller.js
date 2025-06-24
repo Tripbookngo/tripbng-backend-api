@@ -1,6 +1,6 @@
 import { GroupInquiryMarkup } from "../../../models/B2C/Flight/groupInquiryMarkup.model.js";
 import {ApiResponse} from "../../../utils/ApiResponse.js";
-import { AsnycHandler } from "../../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../../utils/asyncHandler.js"
 
 const markupTypes = [
     "Flat for Full Booking",
@@ -34,7 +34,7 @@ const formatMarkup = (markup) => {
 };
 
 // CREATE
-export const createGroupInquiryMarkup = AsnycHandler(async (req, res) => {
+export const createGroupInquiryMarkup = asyncHandler(async (req, res) => {
     const body = req.body;
 
     for (const key in body) {
@@ -53,7 +53,7 @@ export const createGroupInquiryMarkup = AsnycHandler(async (req, res) => {
 });
 
 // READ ALL
-export const getAllGroupInquiryMarkup = AsnycHandler(async (req, res) => {
+export const getAllGroupInquiryMarkup = asyncHandler(async (req, res) => {
     const markups = await GroupInquiryMarkup.find();
     const formatted = markups.map(formatMarkup);
 
@@ -63,7 +63,7 @@ export const getAllGroupInquiryMarkup = AsnycHandler(async (req, res) => {
 });
 
 // READ ONE
-export const getGroupInquiryMarkupById = AsnycHandler(async (req, res) => {
+export const getGroupInquiryMarkupById = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
     const markup = await GroupInquiryMarkup.findById(id);
@@ -79,7 +79,7 @@ export const getGroupInquiryMarkupById = AsnycHandler(async (req, res) => {
 });
 
 // UPDATE
-export const updateGroupInquiryMarkup = AsnycHandler(async (req, res) => {
+export const updateGroupInquiryMarkup = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 

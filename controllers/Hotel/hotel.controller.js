@@ -1,6 +1,6 @@
 import {ApiResponse} from "../../utils/ApiResponse.js"
-import {AsnycHandler} from "../../utils/AsnycHandler.js"
-import {isNull} from "../../utils/FormCheck.js"
+import {asyncHandler} from "../../utils/asyncHandler.js"
+import {isNull} from "../../utils/formCheck.js"
 import {sendPostRequest , sendGetRequest}  from "../../utils/sendRequest.js"
 
 
@@ -12,7 +12,7 @@ import {sendPostRequest , sendGetRequest}  from "../../utils/sendRequest.js"
 // }
 
 
-const HotelBooking = AsnycHandler(async(req,res)=>{ 
+const HotelBooking = asyncHandler(async(req,res)=>{ 
     const {hotelid,body,token,header} = req.body;
     if(!hotelid)
     {
@@ -51,7 +51,7 @@ const HotelBooking = AsnycHandler(async(req,res)=>{
     )
 })
 
-const GetHotelDetails = AsnycHandler(async(req,res)=>{
+const GetHotelDetails = asyncHandler(async(req,res)=>{
     const {channelId,bookingId} = req.body;
     if(!channelId || !bookingId)
     {

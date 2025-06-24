@@ -6,9 +6,9 @@ function FormateForApi1(data) {
         "Auth_Header": {
             "IMEI_Number": process.env.ETRAV_IMEI_NO,
             "IP_Address": process.env.ETRAV_IP,
-            "Password": process.env.ETRAV_PASSWORD,
+            "Password": process.env.LIVE_ETRAV_PASS,
             "Request_Id": process.env.ETRAV_REQUESTID,
-            "UserId": process.env.ETRAV_USERID
+            "UserId": process.env.LIVE_ETRAV_ID
         },
         "Travel_Type": 0,
         "Booking_Type": 0,

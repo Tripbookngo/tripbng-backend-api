@@ -1,6 +1,6 @@
 import { FlightMarkup } from "../../../models/B2C/Flight/flightMarkup.model.js";
 import {ApiResponse} from "../../../utils/ApiResponse.js";
-import { AsnycHandler } from "../../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../../utils/asyncHandler.js"
 
 const markupTypes = [
     "Flat for Full Booking",
@@ -38,7 +38,7 @@ const formatMarkup = (markup) => {
 };
 
 // CREATE
-export const createFlightMarkup = AsnycHandler(async (req, res) => {
+export const createFlightMarkup = asyncHandler(async (req, res) => {
     const body = req.body;
 
     for (const key in body) {
@@ -57,7 +57,7 @@ export const createFlightMarkup = AsnycHandler(async (req, res) => {
 });
 
 // READ ALL
-export const getAllFlightMarkups = AsnycHandler(async (req, res) => {
+export const getAllFlightMarkups = asyncHandler(async (req, res) => {
     const data = await FlightMarkup.find();
     return res.status(200).json(
         new ApiResponse(200, { success: true, data: data.map(formatMarkup) }, "Fetched All")
@@ -65,7 +65,7 @@ export const getAllFlightMarkups = AsnycHandler(async (req, res) => {
 });
 
 // READ ONE
-export const getFlightMarkupById = AsnycHandler(async (req, res) => {
+export const getFlightMarkupById = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const data = await FlightMarkup.findById(id);
     if (!data) {
@@ -79,7 +79,7 @@ export const getFlightMarkupById = AsnycHandler(async (req, res) => {
 });
 
 // UPDATE
-export const updateFlightMarkup = AsnycHandler(async (req, res) => {
+export const updateFlightMarkup = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
@@ -110,7 +110,7 @@ export const updateFlightMarkup = AsnycHandler(async (req, res) => {
 
 
 
-export const deleteFlightMarkup = AsnycHandler(async (req, res) => {
+export const deleteFlightMarkup = asyncHandler(async (req, res) => {
     const { id } = req.params;
    
 

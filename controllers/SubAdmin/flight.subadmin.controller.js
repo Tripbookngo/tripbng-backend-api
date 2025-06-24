@@ -1,4 +1,4 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { Query } from "../../models/query.model.js";
 import { flightbookingdata } from "../../models/FlightBooking.model.js"
@@ -6,7 +6,7 @@ import { flightbookingdata } from "../../models/FlightBooking.model.js"
 
 
 
-const GetFlightBookingDetails = AsnycHandler(async (req, res) => {
+const GetFlightBookingDetails = asyncHandler(async (req, res) => {
     const allBooking = await flightbookingdata.find({});
     if(allBooking.length <1)
     {
@@ -22,7 +22,7 @@ const GetFlightBookingDetails = AsnycHandler(async (req, res) => {
 
 })
 
-const GetQuiryFlight = AsnycHandler(async (req, res) => {
+const GetQuiryFlight = asyncHandler(async (req, res) => {
 
     const allQuiries = await Query.find({query_for:'flight'});
     if (!allQuiries) {
@@ -37,7 +37,7 @@ const GetQuiryFlight = AsnycHandler(async (req, res) => {
 
 })
 
-const ReplayQuiryFlight = AsnycHandler(async (req, res) => {
+const ReplayQuiryFlight = asyncHandler(async (req, res) => {
     const { query_id, reply } = req.body;
     if (!query_id || reply) {
         return res.status(400)

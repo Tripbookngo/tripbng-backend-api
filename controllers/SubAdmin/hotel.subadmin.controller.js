@@ -1,10 +1,10 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { Query } from "../../models/query.model.js";
 
 
 
-// const GetHolidayBookingDetails = AsnycHandler(async (req, res) => {
+// const GetHolidayBookingDetails = asyncHandler(async (req, res) => {
 //     const allTravQuery = await TempTravel.find({});
     
 //         if(allTravQuery.length <=0)
@@ -20,7 +20,7 @@ import { Query } from "../../models/query.model.js";
 //         )
 // })
 
-const GetQuiryFlight = AsnycHandler(async (req, res) => {
+const GetQuiryFlight = asyncHandler(async (req, res) => {
 
     const allQuiries = await Query.find({query_for:'hotel'});
     if (!allQuiries) {
@@ -35,7 +35,7 @@ const GetQuiryFlight = AsnycHandler(async (req, res) => {
 
 })
 
-const ReplayQuiry = AsnycHandler(async (req, res) => {
+const ReplayQuiry = asyncHandler(async (req, res) => {
     const { query_id, reply } = req.body;
     if (!query_id || reply) {
         return res.status(400)

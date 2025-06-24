@@ -1,10 +1,10 @@
-import { AsnycHandler } from "./AsnycHandler.js";
+import { asyncHandler } from "./asyncHandler.js";
 import { ApiResponse } from "./ApiResponse.js";
 import { sendPostRequest } from "./sendRequest.js";
 
 function returnCode (url , header , void_fail_message , fail_message , success_message)
 {
-    return AsnycHandler(async(req,res)=>{
+    return asyncHandler(async(req,res)=>{
           const data = req.body;
           
           if(!data)

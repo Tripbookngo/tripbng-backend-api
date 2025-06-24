@@ -6,7 +6,7 @@ import Package from '../models/Package.js';
 import nodemailer from 'nodemailer';
 import { errorMessage, successMessage } from '../middlewares/util.js';
 import {EmailVerification} from '../models/EmailVerification.js';
-import { AsnycHandler } from "../utils/AsnycHandler.js"
+import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 
 const loginDMC = async (req, res) => {
@@ -240,7 +240,7 @@ const registerDMC = async (req, res) => {
 	}
 };
 
-const createPackage = AsnycHandler(async (req, res) => {
+const createPackage = asyncHandler(async (req, res) => {
     try {
         const {
             name, destination, fromCity, toCity, departureDate, returnDate, duration, currency, theme,

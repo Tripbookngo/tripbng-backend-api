@@ -1,11 +1,11 @@
 import  Package  from "../../models/Package.js";
-import { AsnycHandler } from "../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
 import { ApiResponse } from "../../utils/ApiResponse.js"
-import { isNull } from "../../utils/FormCheck.js"
+import { isNull } from "../../utils/formCheck.js"
 import {userPackage} from "../../models/UserPackage.js"
 import { TempTravel } from "../../models/TempTrav.js";
 
-const searchPackages = AsnycHandler(async (req, res) => {
+const searchPackages = asyncHandler(async (req, res) => {
     //This is a atucal logic of this constructure
     // try {
     //     // const {
@@ -93,7 +93,7 @@ const searchPackages = AsnycHandler(async (req, res) => {
 });
 
 
-const createPackages = AsnycHandler(async(req,res)=>{
+const createPackages = asyncHandler(async(req,res)=>{
     const {destination,nights,days,hotel_type,discription} = req.body;
     const user = req.user;
     if(isNull([destination,nights ,days,hotel_type,discription]))

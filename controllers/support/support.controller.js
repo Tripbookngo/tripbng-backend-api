@@ -1,10 +1,10 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { Query } from "../../models/query.model.js";
 
 
 
-const AddQuery = AsnycHandler(async(req,res)=>{
+const AddQuery = asyncHandler(async(req,res)=>{
     const {user_id,query,query_for} = req.body;
     if(!user_id || !query || !query_for)
     {

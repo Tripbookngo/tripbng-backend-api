@@ -1,10 +1,10 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { FormateForApi2 } from "../../utils/wrapper/Formate2.util.js";
 import { FormateForApi1 } from "../../utils/wrapper/Formate1.util.js";
 import { ResponseAdder } from "../../utils/FlightResponse/FormateSearch.js";
 import { sendGetRequest, sendPostRequest } from "../../utils/sendRequest.js";
-import { isNull } from "../../utils/FormCheck.js";
+import { isNull } from "../../utils/formCheck.js";
 import { authHeaders } from "../../middlewares/util.js";
 import AirlineCodes from "../../models/AirlineCodes.js";
 import {
@@ -50,7 +50,7 @@ const GetBookingId = async (Id) => {
 };
 
 //search -optimal
-const GetAllBestFlight = AsnycHandler(async (req, res) => {
+const GetAllBestFlight = asyncHandler(async (req, res) => {
   //fetch the data from the request body
   const Data = req.body;
        
@@ -86,6 +86,8 @@ const GetAllBestFlight = AsnycHandler(async (req, res) => {
          Api1DataFormate,
          {}
        );
+       
+       
       
        console.log("Data Fetched From the Api1 successfully")
        
@@ -101,14 +103,16 @@ const GetAllBestFlight = AsnycHandler(async (req, res) => {
            }
          }
        );
+       
        console.log("Data Fetched from the Api2")
 
        //get all disable flights api
        console.log("Data come from db...")
        const AllFlightDisableData  = await ApiFlight.find({status:false})
-
+       console.log(AllFlightDisableData)
        //Data holder holds the details of the apis
        const DataHolder = [(Api1Data?.data?.TripDetails) ?? null,(Api2Data?.data?.searchResult?.tripInfos) ?? null]
+       console.log(DataHolder[0])
         
        //check which flight api disabled, if it is disabled then set the data to null
         for(let i=0; i<AllFlightDisableData.length; i++)
@@ -130,6 +134,7 @@ const GetAllBestFlight = AsnycHandler(async (req, res) => {
           DataHolder[0]?.[1].Flights ? DataHolder[0][1].Flights : null,
            DataHolder[1]?.RETURN ? DataHolder[1].RETURN : null
          );
+        
          
          //check the flight response is empty or not
          if (!FlightOnward && !FlightReturn) {
@@ -161,13 +166,13 @@ const GetAllBestFlight = AsnycHandler(async (req, res) => {
           DataHolder[0]?.[0]?.Flights ? DataHolder[0][0].Flights : null,
           DataHolder[1]?.ONWARD ? DataHolder[1].ONWARD :null
          );
-     
+        
           //check the response is empty or not
          if (!response) {
            return res.status(200).json(
              new ApiResponse(
                200,
-               { success: false, data: "No flights found", error:CheckError },
+               { success: false, data: "No flights found" },
                "No flights found"
              )
            );
@@ -191,7 +196,7 @@ const GetAllBestFlight = AsnycHandler(async (req, res) => {
 });
 
 //Airline--complete
-const SearchAirLine = AsnycHandler(async (req, res) => {
+const SearchAirLine = asyncHandler(async (req, res) => {
   try {
     const { searchTerm } = req.body;
     const query = searchTerm
@@ -216,7 +221,7 @@ const SearchAirLine = AsnycHandler(async (req, res) => {
 });
 
 //Fair policy--complete
-const GetAirlinePolicy = AsnycHandler(async (req, res) => {
+const GetAirlinePolicy = asyncHandler(async (req, res) => {
   const { FareId, SearchKey, FlightKey, ApiNo, id } = req.body;
 
   //fetch airline policy from the api 1
@@ -301,7 +306,7 @@ const GetAirlinePolicy = AsnycHandler(async (req, res) => {
 });
 
 //Getseat
-const GetFlightSeat = AsnycHandler(async (req, res) => {
+const GetFlightSeat = asyncHandler(async (req, res) => {
   const { Id, ApiNo, Api1Data } = req.body;
   // const {username} = req.user;
 
@@ -395,7 +400,7 @@ const GetFlightSeat = AsnycHandler(async (req, res) => {
 });
 
 //Flight ssr
-const GetFlightSSR = AsnycHandler(async (req, res) => {
+const GetFlightSSR = asyncHandler(async (req, res) => {
   const { ApiNo, Search_Key, Flight_Key } = req.body;
 
   if (ApiNo == "1") {
@@ -448,7 +453,7 @@ const GetFlightSSR = AsnycHandler(async (req, res) => {
   }
 });
 
-const ReviewSection = AsnycHandler(async (req, res) => {
+const ReviewSection = asyncHandler(async (req, res) => {
   const { id } = req.body;
   const reviewData = await sendPostRequest(
     `https://apitest.tripjack.com/fms/v1/review`,
@@ -467,7 +472,7 @@ const ReviewSection = AsnycHandler(async (req, res) => {
     );
 });
 
-const GetCanellationCharges = AsnycHandler(async (req, res) => {
+const GetCanellationCharges = asyncHandler(async (req, res) => {
   const { ApiNo, Api1Data, Api2Data } = req.data;
 
   if (ApiNo == 1) {
@@ -512,7 +517,7 @@ const GetCanellationCharges = AsnycHandler(async (req, res) => {
   }
 });
 //Flight Booking
-const FlightBooking = AsnycHandler(async (req, res) => {
+const FlightBooking = asyncHandler(async (req, res) => {
   const { type,body, bookingDetails } = req.body;
 
   if (!body) {
@@ -654,7 +659,7 @@ const FlightBooking = AsnycHandler(async (req, res) => {
 });
 
 
-const GetBookingDetails = AsnycHandler(async (req, res) => {
+const GetBookingDetails = asyncHandler(async (req, res) => {
   const { ApiNo, Api1Data, Api2Data } = req.body;
 
   if (!ApiNo) {
@@ -729,7 +734,7 @@ const GetBookingDetails = AsnycHandler(async (req, res) => {
 });
 
 //complete for api1
-const CancelFlightBooking = AsnycHandler(async (req, res) => {
+const CancelFlightBooking = asyncHandler(async (req, res) => {
   const { ApiNo, Api1Data, Api2Data } = req.body;
   if (!ApiNo) {
     return res
@@ -801,7 +806,7 @@ const CancelFlightBooking = AsnycHandler(async (req, res) => {
 
 });
 
-const Reprice = AsnycHandler(async (req, res) => {
+const Reprice = asyncHandler(async (req, res) => {
   const { ApiNo, Api1Data, Api2Data } = req.body;
   if (!ApiNo) {
     return res
@@ -867,7 +872,7 @@ const Reprice = AsnycHandler(async (req, res) => {
   }
 });
 
-const MakrupData = AsnycHandler(async (req,res)=>{
+const MakrupData = asyncHandler(async (req,res)=>{
   const {amount , airline , is_return , travel_type , pax_number} = req.body
 
   const markup = await generateMarkup(amount , airline , is_return , travel_type , pax_number);
@@ -878,7 +883,7 @@ const MakrupData = AsnycHandler(async (req,res)=>{
   )
 })
 
-const AddBalace = AsnycHandler(async(req,res)=>{
+const AddBalace = asyncHandler(async(req,res)=>{
   const {RefNo} = req.body
   const add = await sendPostRequest("https://api.etrav.in/Trade/TradeAPIService.svc/JSONService/AddPayment" ,{},{
     Auth_Header:authHeaders(),
@@ -894,7 +899,7 @@ const AddBalace = AsnycHandler(async(req,res)=>{
   )
 })
 
-const Tickting = AsnycHandler(async(req,res)=>{
+const Tickting = asyncHandler(async(req,res)=>{
   const {Booking_RefNo,Ticketing_Type} = req.body
 
   try {

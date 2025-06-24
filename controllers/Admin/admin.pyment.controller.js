@@ -1,12 +1,12 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
 import { ApiResponse } from "../../utils/ApiResponse.js"
 import {authHeaders} from "../../middlewares/util.js"
 import {sendPostRequest}  from "../../utils/sendRequest.js"
-import { isNull } from "../../utils/FormCheck.js";
+import { isNull } from "../../utils/formCheck.js";
 
 
 //see bus balance
-const GetBalance = AsnycHandler(async(req ,res)=>{
+const GetBalance = asyncHandler(async(req ,res)=>{
     
     const CheckPyment = await sendPostRequest('http://uat.etrav.in/tradehost/TradeAPIService.svc/JSONService/GetBalance',{},{
         Auth_Header: authHeaders(),
@@ -28,7 +28,7 @@ const GetBalance = AsnycHandler(async(req ,res)=>{
 })
 
 //Add bus balance
-const AddBusPayment = AsnycHandler(async(req,res)=>{
+const AddBusPayment = asyncHandler(async(req,res)=>{
     // "ClientRefNo":"Testing Team",
     // "RefNo": "FBB64ZDT",
     // "TransactionType":0,
@@ -67,7 +67,7 @@ const AddBusPayment = AsnycHandler(async(req,res)=>{
 
 
 //Add flight balance
-const AddFlghtPayment = AsnycHandler(async(req,res)=>{
+const AddFlghtPayment = asyncHandler(async(req,res)=>{
     const { ClientRefNo, RefNo,TransactionType,ProductId} = req.body;
     if(isNull([ClientRefNo , RefNo , TransactionType , ProductId]))
     {

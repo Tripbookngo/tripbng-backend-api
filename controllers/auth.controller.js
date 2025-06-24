@@ -6,17 +6,17 @@ import { generateOTP } from "../utils/generateOtp.js";
 import { sendSMS } from "../utils/SMS.js";
 import { OtpVfy } from "../models/Agent_Cp/OtpVfy.models.js";
 import { ApiResponse } from '../utils/ApiResponse.js';
-import { AsnycHandler } from "../utils/AsnycHandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { LoginDetails } from "../models/LoginDetails.models.js"
 import { sendMail } from '../utils/sendMail.js';
 import  {EmailVerification} from "../models/EmailVerification.js"
-import { isNull } from '../utils/FormCheck.js';
+import { isNull } from '../utils/formCheck.js';
 const options = {
     httpOnly: true,
     secure: true,
     sameSite: "None"
 };
-const login = AsnycHandler(async (req, res) => {
+const login = asyncHandler(async (req, res) => {
     const { contact_feild } = req.body;
 
     if (!contact_feild) {
@@ -88,7 +88,7 @@ TripBnG India Private Limited`, contact_feild);
     return res.status(200).json(new ApiResponse(200, null, "OTP sent successfully"));
 });
 
-const verifyOTP = AsnycHandler(async (req, res) => {
+const verifyOTP = asyncHandler(async (req, res) => {
     const { contact_feild, otp, ipdetails } = req.body;
 
 
@@ -137,7 +137,7 @@ const verifyOTP = AsnycHandler(async (req, res) => {
         .json(new ApiResponse(200, { token, user }, "OTP verified successfully"));
 });
 
-const resendOTP = AsnycHandler(async (req, res) => {
+const resendOTP = asyncHandler(async (req, res) => {
     const { contact_feild } = req.body;
 
     if (!contact_feild) {
@@ -213,7 +213,7 @@ TripBnG India Private Limited`, contact_feild);
     return res.status(200).json(new ApiResponse(200, null, "OTP resent successfully"));
 });
 
-const socialLogin = AsnycHandler(async (req, res) => {
+const socialLogin = asyncHandler(async (req, res) => {
     const { email, name, provider } = req.body;
 
     if (!provider || !email || !name) {
@@ -233,7 +233,7 @@ const socialLogin = AsnycHandler(async (req, res) => {
 
 // Add these functions in auth.controller.js
 
-const disableAccount = AsnycHandler(async (req, res) => {
+const disableAccount = asyncHandler(async (req, res) => {
     const { password } = req.body;
     const userId = req.user.id; // Assuming authentication middleware sets req.user
 
@@ -257,7 +257,7 @@ const disableAccount = AsnycHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, { reactivationLink: "http://example.com/reactivate" }, "Account disabled successfully"));
 });
 
-const deleteAccountOtpsend = AsnycHandler(async (req, res) => {
+const deleteAccountOtpsend = asyncHandler(async (req, res) => {
 
     const { mobile } = req.body;
 
@@ -308,7 +308,7 @@ const deleteAccountOtpsend = AsnycHandler(async (req, res) => {
         )
 });
 
-const verifyOtpForDelete = AsnycHandler(async (req, res) => {
+const verifyOtpForDelete = asyncHandler(async (req, res) => {
     const { otp } = req.body;
     const mobile = req.user.mobile;
     const user = req.user
@@ -358,7 +358,7 @@ const verifyOtpForDelete = AsnycHandler(async (req, res) => {
 
 
 
-const ForgetPassword = AsnycHandler(async (req, res) => {
+const ForgetPassword = asyncHandler(async (req, res) => {
     const user = req.user;
     const {usermail} = req.body;
     if(usermail !=  user.email){
@@ -397,7 +397,7 @@ The TripBNG Team
 })
 
 
-const ChangeForgetPassword = AsnycHandler(async (req, res) => {
+const ChangeForgetPassword = asyncHandler(async (req, res) => {
     const { code, newPassword } = req.body; //email send when user is not loggin
     if (!code) {
         return res.status(400).json(new ApiResponse(400, { success: false }, "OTP is required"))
@@ -439,7 +439,7 @@ const ChangeForgetPassword = AsnycHandler(async (req, res) => {
 
 })
 
-const GetOtpOfLogoutPasswordForget = AsnycHandler(async(req,res)=>{
+const GetOtpOfLogoutPasswordForget = asyncHandler(async(req,res)=>{
     const {email} = req.body;
     if(!email)
     {
@@ -489,7 +489,7 @@ const GetOtpOfLogoutPasswordForget = AsnycHandler(async(req,res)=>{
     )
 })
 
-const VeriFyLogOutOtpAndChangePassword = AsnycHandler(async(req,res)=>{
+const VeriFyLogOutOtpAndChangePassword = asyncHandler(async(req,res)=>{
     const {otp , email , newPassword} = req.body;
     if(isNull([otp , email , newPassword])){
         return res.status(400)

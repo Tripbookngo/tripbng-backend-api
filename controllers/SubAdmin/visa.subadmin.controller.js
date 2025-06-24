@@ -1,10 +1,10 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { Query } from "../../models/query.model.js";
 import {Tempvisas} from  "../../models/TempVisa.js"
 
 
-const GetVisaBookingDetails = AsnycHandler(async (req, res) => {
+const GetVisaBookingDetails = asyncHandler(async (req, res) => {
     const allVisaQuery = await Tempvisas.find({});
 
     if(allVisaQuery.length <=0)
@@ -20,7 +20,7 @@ const GetVisaBookingDetails = AsnycHandler(async (req, res) => {
     )
 })
 
-const GetQuiryVisa = AsnycHandler(async (req, res) => {
+const GetQuiryVisa = asyncHandler(async (req, res) => {
 
     const allQuiries = await Query.find({query_for:'visa'});
     if (!allQuiries) {
@@ -35,7 +35,7 @@ const GetQuiryVisa = AsnycHandler(async (req, res) => {
 
 })
 
-const ReplayQuiryVisa = AsnycHandler(async (req, res) => {
+const ReplayQuiryVisa = asyncHandler(async (req, res) => {
     const { query_id, reply } = req.body;
     if (!query_id || reply) {
         return res.status(400)

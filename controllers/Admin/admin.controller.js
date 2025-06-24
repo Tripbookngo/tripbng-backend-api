@@ -1,9 +1,9 @@
 //All About The Admin Controller
-import { AsnycHandler } from "../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
 import { ApiResponse } from "../../utils/ApiResponse.js"
 import { Admin } from "../../models/Admin.js";
 import { SubAdmin } from "../../models/SubAdmin.models.js";
-import { isNull } from "../../utils/FormCheck.js";
+import { isNull } from "../../utils/formCheck.js";
 import { generateOTP } from "../../utils/generateOtp.js"
 import { sendMail } from "../../utils/sendMail.js"
 import { EmailVerification } from "../../models/EmailVerification.js";
@@ -23,7 +23,7 @@ const options = {
 };
 
 //Ignore This, This is for just Test
-const CreateSuperAdmin = AsnycHandler(async (req, res) => {
+const CreateSuperAdmin = asyncHandler(async (req, res) => {
 
    
     const { companyName, username, email, mobile, pincode, address, password } = req.body;
@@ -47,7 +47,7 @@ const CreateSuperAdmin = AsnycHandler(async (req, res) => {
 
 })
 
-const LoginAdmin = AsnycHandler(async (req, res) => {
+const LoginAdmin = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email) {
         return res.status(400)
@@ -101,7 +101,7 @@ const LoginAdmin = AsnycHandler(async (req, res) => {
 
 })
 
-const veryfyOTPLogin = AsnycHandler(async (req, res) => {
+const veryfyOTPLogin = asyncHandler(async (req, res) => {
     const { email, code } = req.body;
 
     if (isNull([email, code])) {
@@ -163,7 +163,7 @@ const veryfyOTPLogin = AsnycHandler(async (req, res) => {
         )
 })
 
-const CreateSubAdmin = AsnycHandler(async (req, res) => {
+const CreateSubAdmin = asyncHandler(async (req, res) => {
     const { username, email, password, role } = req.body;
 
     if (isNull([username, email, password, role])) {
@@ -224,14 +224,14 @@ const CreateSubAdmin = AsnycHandler(async (req, res) => {
         )
 })
 
-const GetAdminProflile = AsnycHandler(async(req,res)=>{
+const GetAdminProflile = asyncHandler(async(req,res)=>{
     return res.status(200)
     .json(
         new ApiResponse(200,{success:true , data:req.user},"data fetch successfully")
     )
 })
 
-const ChangePassword = AsnycHandler(async (req, res) => {
+const ChangePassword = asyncHandler(async (req, res) => {
     const { CurrectPass, NewPass } = req.body;
     const user = req.user;
 
@@ -263,7 +263,7 @@ const ChangePassword = AsnycHandler(async (req, res) => {
         )
 })
 
-const AdminLogout = AsnycHandler(async (req, res) => {
+const AdminLogout = asyncHandler(async (req, res) => {
     const user = req.user;
 
     return res.status(200)
@@ -271,7 +271,7 @@ const AdminLogout = AsnycHandler(async (req, res) => {
         .json(new ApiResponse(200, { user }, "Logout Successfully"))
 })
 
-const ForgetPassword = AsnycHandler(async (req, res) => {
+const ForgetPassword = asyncHandler(async (req, res) => {
     const user = req.user;
     const usermail = req.body;
 
@@ -303,7 +303,7 @@ const ForgetPassword = AsnycHandler(async (req, res) => {
 })
 
 
-const ChangeForgetPassword = AsnycHandler(async (req, res) => {
+const ChangeForgetPassword = asyncHandler(async (req, res) => {
     const { code, newPassword, email } = req.body; //email send when user is not loggin
     if (!code) {
         return res.status(400).json(new ApiResponse(400, { success: false }, "OTP is required"))
@@ -373,7 +373,7 @@ const ChangeForgetPassword = AsnycHandler(async (req, res) => {
 
 })
 
-const GetOtpOfLogoutPasswordForget = AsnycHandler(async(req,res)=>{
+const GetOtpOfLogoutPasswordForget = asyncHandler(async(req,res)=>{
     const {email} = req.body;
     if(!email)
     {
@@ -408,7 +408,7 @@ const GetOtpOfLogoutPasswordForget = AsnycHandler(async(req,res)=>{
     )
 })
 
-const VeriFyLogOutOtpAndChangePassword = AsnycHandler(async(req,res)=>{
+const VeriFyLogOutOtpAndChangePassword = asyncHandler(async(req,res)=>{
     const {otp , email , newPassword} = req.body;
     if(isNull([otp , email , newPassword])){
         return res.status(400)
@@ -439,7 +439,7 @@ const VeriFyLogOutOtpAndChangePassword = AsnycHandler(async(req,res)=>{
 
 //Dashboard controller
 
-const GetAllUser = AsnycHandler(async (req, res) => {
+const GetAllUser = asyncHandler(async (req, res) => {
 
     const AllUsers = await Users.find({})
     res.status(200)
@@ -450,7 +450,7 @@ const GetAllUser = AsnycHandler(async (req, res) => {
 })
 
 
-const GetAllAgents = AsnycHandler(async (req, res) => {
+const GetAllAgents = asyncHandler(async (req, res) => {
 
     const UnAproveAgents = await Agent.find({ aprove: false }) || null
     const AproveAgents = await Agent.find({ aprove: true }) || null
@@ -468,7 +468,7 @@ const GetAllAgents = AsnycHandler(async (req, res) => {
 
 })
 
-const GiveAgentAprove = AsnycHandler(async (req, res) => {
+const GiveAgentAprove = asyncHandler(async (req, res) => {
     const { _id } = req.body;
     const user = req.user;
 
@@ -501,7 +501,7 @@ const GiveAgentAprove = AsnycHandler(async (req, res) => {
 
 })
 
-const GetAllCp = AsnycHandler(async (req, res) => {
+const GetAllCp = asyncHandler(async (req, res) => {
 
     const UnAproveCp = await Cp.find({ aprove: false }) || null
     const AproveCp = await Cp.find({ aprove: true }) || null
@@ -519,7 +519,7 @@ const GetAllCp = AsnycHandler(async (req, res) => {
 
 })
 
-const GiveCpAprove = AsnycHandler(async (req, res) => {
+const GiveCpAprove = asyncHandler(async (req, res) => {
     const { _id } = req.body;
     const user = req.user;
 
@@ -551,7 +551,7 @@ const GiveCpAprove = AsnycHandler(async (req, res) => {
 
 })
 
-const BlockCp = AsnycHandler(async(req,res)=>{
+const BlockCp = asyncHandler(async(req,res)=>{
     const id =  req.parms.id;
 
     const BlockCp = await Cp.findByIdAndDelete({_id:id});
@@ -570,7 +570,7 @@ const BlockCp = AsnycHandler(async(req,res)=>{
     
 })
 
-const BlockAgent = AsnycHandler(async(req,res)=>{
+const BlockAgent = asyncHandler(async(req,res)=>{
     const id =  req.parms.id;
 
     const BlockedAgent = await Agent.findByIdAndDelete({_id:id});
@@ -587,7 +587,7 @@ const BlockAgent = AsnycHandler(async(req,res)=>{
     )
 })
 
-const inActiveCp = AsnycHandler(async(req,res)=>{
+const inActiveCp = asyncHandler(async(req,res)=>{
     const id =  req.parms.id;
 
     if(!id)
@@ -618,7 +618,7 @@ const inActiveCp = AsnycHandler(async(req,res)=>{
 
 })
 
-const inActiveAgent = AsnycHandler(async(req,res)=>{
+const inActiveAgent = asyncHandler(async(req,res)=>{
     const id =  req.parms.id;
 
     if(!id)
@@ -649,7 +649,7 @@ const inActiveAgent = AsnycHandler(async(req,res)=>{
 
 })
 
-const GetAllBookedFlights = AsnycHandler(async(req,res)=>{
+const GetAllBookedFlights = asyncHandler(async(req,res)=>{
 
     const allBooking = await flightbookingdata.find({});
     if(allBooking.length <1)
@@ -666,7 +666,7 @@ const GetAllBookedFlights = AsnycHandler(async(req,res)=>{
 
 })
 
-const GetAllBusBooking = AsnycHandler(async(req,res)=>{
+const GetAllBusBooking = asyncHandler(async(req,res)=>{
     const allBooking = await BusBooking.find({});
     if(allBooking.length <1)
     {
@@ -683,7 +683,7 @@ const GetAllBusBooking = AsnycHandler(async(req,res)=>{
 
 })
 
-const GetAllVisaQuery = AsnycHandler(async(req,res)=>{
+const GetAllVisaQuery = asyncHandler(async(req,res)=>{
     const allVisaQuery = await Tempvisas.find({});
 
     if(allVisaQuery.length <=0)
@@ -699,7 +699,7 @@ const GetAllVisaQuery = AsnycHandler(async(req,res)=>{
     )
 })
 
-const GetAllTravQuery = AsnycHandler(async(req,res)=>{
+const GetAllTravQuery = asyncHandler(async(req,res)=>{
     const allTravQuery = await TempTravel.find({});
 
     if(allTravQuery.length <=0)
@@ -716,7 +716,7 @@ const GetAllTravQuery = AsnycHandler(async(req,res)=>{
 })
 
 
-const GetAllSubAdmin = AsnycHandler(async(req,res)=>{
+const GetAllSubAdmin = asyncHandler(async(req,res)=>{
     const allSubAdmins = await SubAdmin.find({});
     if(allSubAdmins.length <1)
     {
@@ -731,7 +731,7 @@ const GetAllSubAdmin = AsnycHandler(async(req,res)=>{
     )
 })
 
-const DeleteSubAdmin = AsnycHandler(async(req,res)=>{
+const DeleteSubAdmin = asyncHandler(async(req,res)=>{
     const {id} = req.body;
     if(!id)
     {
@@ -756,7 +756,7 @@ const DeleteSubAdmin = AsnycHandler(async(req,res)=>{
     )
 })
 
-const GetLoginIpDetails = AsnycHandler(async(req,res)=>{
+const GetLoginIpDetails = asyncHandler(async(req,res)=>{
     const loginIps = await LoginDetails.find({});
     if(loginIps.length == 0)
     {
@@ -772,7 +772,7 @@ const GetLoginIpDetails = AsnycHandler(async(req,res)=>{
     )
 })
 
-const CreateApiFlights = AsnycHandler(async(req,res)=>{
+const CreateApiFlights = asyncHandler(async(req,res)=>{
     const {apiname ,apiid,apifavour,status} = req.body;
 
     const createobject = await ApiFlight.create({apiname ,apiid , apifavour , status});
@@ -791,7 +791,7 @@ const CreateApiFlights = AsnycHandler(async(req,res)=>{
 
 })
 
-const UpdateApiFlight = AsnycHandler(async(req,res)=>{
+const UpdateApiFlight = asyncHandler(async(req,res)=>{
     const {id , changes} = req.body;
 
     if(!id || !changes){
@@ -817,7 +817,7 @@ const UpdateApiFlight = AsnycHandler(async(req,res)=>{
         )
 })
 
-const DeleteApiFlight = AsnycHandler(async(req,res)=>{
+const DeleteApiFlight = asyncHandler(async(req,res)=>{
     const {id} = req.body;
     if(!id)
     {
@@ -843,7 +843,7 @@ const DeleteApiFlight = AsnycHandler(async(req,res)=>{
     )
 })
 
-const GetAllApiFlight = AsnycHandler(async(req,res)=>{
+const GetAllApiFlight = asyncHandler(async(req,res)=>{
 
     const AllApiFlight = await ApiFlight.find({})
 

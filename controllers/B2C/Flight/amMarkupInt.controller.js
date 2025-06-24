@@ -1,7 +1,7 @@
 import { AmMarkupINT } from "../../../models/B2C/Flight/amMarkupInt.model.js";
 import {ApiResponse} from "../../../utils/ApiResponse.js";
 import { isNull } from "../../../utils/isNull.js";
-import { AsnycHandler } from "../../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../../utils/asyncHandler.js"
 
 // Markup types by index
 const markupTypes = [
@@ -38,7 +38,7 @@ const formatMarkup = (markup) => {
 };
 
 // CREATE
-export const createAmMarkupINT = AsnycHandler(async (req, res) => {
+export const createAmMarkupINT = asyncHandler(async (req, res) => {
     const body = req.body;
 
     for (const key in body) {
@@ -58,7 +58,7 @@ export const createAmMarkupINT = AsnycHandler(async (req, res) => {
 });
 
 // READ ALL
-export const getAllAmMarkupINT = AsnycHandler(async (req, res) => {
+export const getAllAmMarkupINT = asyncHandler(async (req, res) => {
     const markups = await AmMarkupINT.find();
     const formatted = markups.map(formatMarkup);
 
@@ -68,7 +68,7 @@ export const getAllAmMarkupINT = AsnycHandler(async (req, res) => {
 });
 
 // READ ONE
-export const getAmMarkupINTById = AsnycHandler(async (req, res) => {
+export const getAmMarkupINTById = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
     const markup = await AmMarkupINT.findById(id);
@@ -84,7 +84,7 @@ export const getAmMarkupINTById = AsnycHandler(async (req, res) => {
 });
 
 // UPDATE
-export const updateAmMarkupINT = AsnycHandler(async (req, res) => {
+export const updateAmMarkupINT = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 

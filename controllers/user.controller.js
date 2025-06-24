@@ -10,7 +10,7 @@ import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import s3Client from '../middlewares/s3Client.js';
 import Countries from '../models/Countries.js';
-import { AsnycHandler } from "../utils/AsnycHandler.js"
+import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { BusBooking } from "../models/BusBooking.models.js"
 import { flightbookingdata } from "../models/FlightBooking.model.js"
@@ -252,7 +252,7 @@ const DeleteVisaBooking = async (req, res) => {
 	}
 };
 
-const GetDeleteAccoutLink = AsnycHandler(async (req, res) => {
+const GetDeleteAccoutLink = asyncHandler(async (req, res) => {
 	const { username, password } = req.body;
 	if (!username) {
 		return res.status(400)
@@ -268,7 +268,7 @@ const GetDeleteAccoutLink = AsnycHandler(async (req, res) => {
 	}
 })
 
-const GetBusBookingHistory = AsnycHandler(async (req, res) => {
+const GetBusBookingHistory = asyncHandler(async (req, res) => {
 	const user = req.user;
 
 	const DataOfBusBooking = await BusBooking.findOne({ email: user.email });
@@ -286,7 +286,7 @@ const GetBusBookingHistory = AsnycHandler(async (req, res) => {
 		)
 })
 
-const GetFlightBookingHistroy = AsnycHandler(async (req, res) => {
+const GetFlightBookingHistroy = asyncHandler(async (req, res) => {
 	const user = req.user;
 
 	const flightbookingdatahistroy = await flightbookingdata.find({ UserId: req.user._id })
@@ -305,7 +305,7 @@ const GetFlightBookingHistroy = AsnycHandler(async (req, res) => {
 
 })
 
-const VisaQuiryGenrate = AsnycHandler(async(req,res)=>{
+const VisaQuiryGenrate = asyncHandler(async(req,res)=>{
 	const data = req.body;
 	const SaveData = await Tempvisas.create(data)
 	if(!SaveData)
@@ -322,14 +322,14 @@ const VisaQuiryGenrate = AsnycHandler(async(req,res)=>{
 	)
 })
 
-const GetVolateBalance = AsnycHandler(async(req,res)=>{
+const GetVolateBalance = asyncHandler(async(req,res)=>{
 	return res.status(200)
 	.json(
 		new ApiResponse(200,{success:true , data:req.user.volate},`Your volate amount is ${req.user.volate}`)
 	)
 })
 
-const AddVolate = AsnycHandler(async(req,res)=>{
+const AddVolate = asyncHandler(async(req,res)=>{
 	try {     
 		const { amount } = req.body;  
 		
@@ -356,7 +356,7 @@ const AddVolate = AsnycHandler(async(req,res)=>{
 	
 })
 
-const WithdrawVolate = AsnycHandler(async(req,res)=>{
+const WithdrawVolate = asyncHandler(async(req,res)=>{
 	const {amount} = req.body;
 	const user_amount = req.user.volate;
 	if(amount>user_amount)
@@ -376,7 +376,7 @@ const WithdrawVolate = AsnycHandler(async(req,res)=>{
 	)
 })
 
-const GetAllTrasactions = AsnycHandler(async(req,res)=>{
+const GetAllTrasactions = asyncHandler(async(req,res)=>{
 	
 	const trans = await Transaction.find({user_id:req.user._id})
  

@@ -1,11 +1,11 @@
-import { AsnycHandler } from "../../utils/AsnycHandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 import { PayData } from "./pay.config.js"
 import { Transaction } from "../../models/Transaction.models.js";
 import crypto from "crypto"
 
 
-const payUsuccess = AsnycHandler(async (req, res) => {
+const payUsuccess = asyncHandler(async (req, res) => {
 
     const verified_Data = await PayData.payuClient.verifyPayment(req.params.txnid);
 
@@ -91,7 +91,7 @@ async function PayUPaymentScrater(amount, product, firstname, lastname, email, m
 }
 
 
-const payUPayment = AsnycHandler(async (req, res) => {
+const payUPayment = asyncHandler(async (req, res) => {
     //amount , {type} , firstname , lastname , email , phone no
     const { amount, type, firstname, lastname, email, phoneno } = req.body
     //    let amount = 900

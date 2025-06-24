@@ -1,13 +1,13 @@
 import { ApiResponse } from "../../utils/ApiResponse.js"
-import { AsnycHandler } from "../../utils/AsnycHandler.js"
-import { isNull } from "../../utils/FormCheck.js"
+import { asyncHandler } from "../../utils/asyncHandler.js"
+import { isNull } from "../../utils/formCheck.js"
 import { sendGetRequest, sendPostRequest } from "../../utils/sendRequest.js"
 import { authHeaders } from "../../middlewares/util.js"
 import { CityCodeData } from "../../static/citylist.js"
 import { BusBooking } from "../../models/BusBooking.models.js"
 
 //complete
-const SearchBus = AsnycHandler(async (req, res) => {
+const SearchBus = asyncHandler(async (req, res) => {
     const { From_City, To_City, TravelDate } = req.body;
 
     if (isNull([From_City, To_City])) {
@@ -31,7 +31,7 @@ const SearchBus = AsnycHandler(async (req, res) => {
 
 
 
-    const SendRequest = await sendPostRequest("http://uat.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_Search", {},
+    const SendRequest = await sendPostRequest("http://api.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_Search", {},
         {
             Auth_Header: authHeaders(),
             From_City,
@@ -63,7 +63,7 @@ const SearchBus = AsnycHandler(async (req, res) => {
 })
 
 //complete
-const BusSeatMap = AsnycHandler(async (req, res) => {
+const BusSeatMap = asyncHandler(async (req, res) => {
 
     const { Boarding_Id, Dropping_Id, Bus_Key, Search_Key } = req.body;
 
@@ -100,8 +100,8 @@ const BusSeatMap = AsnycHandler(async (req, res) => {
 
 })
 
-//incomplete
-const TempBooking = AsnycHandler(async (req, res) => {
+//complete
+const TempBooking = asyncHandler(async (req, res) => {
 
     const busDetails = req.body
     if (!busDetails) {
@@ -130,7 +130,7 @@ const TempBooking = AsnycHandler(async (req, res) => {
 })
 
 //After Booking-----comeplete
-const GetBookingDetails = AsnycHandler(async (req, res) => {
+const GetBookingDetails = asyncHandler(async (req, res) => {
 
     const { Booking_RefNo } = req.body;
     if (!Booking_RefNo) {
@@ -160,7 +160,7 @@ const GetBookingDetails = AsnycHandler(async (req, res) => {
 
 })
 
-const ConfirmBooking = AsnycHandler(async (req, res) => {
+const ConfirmBooking = asyncHandler(async (req, res) => {
     const { Booking_RefNo } = req.body;
 
     const GetPNR1 = await sendPostRequest('http://uat.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_Ticketing', {}, {
@@ -182,9 +182,9 @@ const ConfirmBooking = AsnycHandler(async (req, res) => {
 })
 
 //complete
-const GetBookingCancellationDetails = AsnycHandler(async (req, res) => {
+const GetBookingCancellationDetails = asyncHandler(async (req, res) => {
 
-    const { Booking_RefNo, Seat_Number, Ticket_Number } = req.body;
+    const { Booking_RefNo, Seat_Number, Ticket_Number,Transport_PNR } = req.body;
     if (isNull([Booking_RefNo, Seat_Number, Ticket_Number])) {
         return res.status(400)
             .json(
@@ -192,15 +192,6 @@ const GetBookingCancellationDetails = AsnycHandler(async (req, res) => {
             )
     }
 
-    const GetPNR = await sendPostRequest('http://uat.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_Ticketing', {}, {
-        Auth_Header: authHeaders(),
-        Booking_RefNo
-    })
-
-    if (!GetPNR.data) {
-        return res.status(400)
-            .json(400, { success: false }, "Please Enter Valid Details")
-    }
 
     const CancellationDetails = await sendPostRequest('http://uat.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_CancellationCharge', {}, {
         Auth_Header: authHeaders(),
@@ -209,7 +200,7 @@ const GetBookingCancellationDetails = AsnycHandler(async (req, res) => {
             {
                 Seat_Number,
                 Ticket_Number,
-                Transport_PNR: GetPNR
+                Transport_PNR
             }
         ]
 
@@ -235,9 +226,9 @@ const GetBookingCancellationDetails = AsnycHandler(async (req, res) => {
 })
 
 //complete
-const CancelBooking = AsnycHandler(async (req, res) => {
+const CancelBooking = asyncHandler(async (req, res) => {
 
-    const { Booking_RefNo, Seat_Number, CancellationCharge_Key, Ticket_Number } = req.body;
+    const { Booking_RefNo, Seat_Number, CancellationCharge_Key, Ticket_Number,Transport_PNR } = req.body;
 
     if (isNull([Booking_RefNo, Seat_Number, CancellationCharge_Key, Ticket_Number])) {
         return res.status(400)
@@ -245,24 +236,8 @@ const CancelBooking = AsnycHandler(async (req, res) => {
                 new ApiResponse(400, { success: false }, "Please Enter All The Feild")
             )
     }
-    const GetPNR = await sendPostRequest('http://uat.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_Ticketing', {}, {
-        Auth_Header: authHeaders(),
-        Booking_RefNo
-    })
 
-    if (!GetPNR) {
-        return res.status(400)
-            .json(400, { success: false }, "Please Enter Valid Details")
-    }
 
-    const Transport_PNR = GetPNR?.data?.Transport_PNR;
-
-    if (!Transport_PNR) {
-        return res.status(400)
-            .json(
-                new ApiResponse(400, { success: false }, "Invalid Booking details")
-            )
-    }
 
     const TicketCancellation = await sendPostRequest('http://uat.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_Cancellation', {}, {
         Auth_Header: authHeaders(),
@@ -274,6 +249,7 @@ const CancelBooking = AsnycHandler(async (req, res) => {
         }],
         CancellationCharge_Key
     })
+    console.log(TicketCancellation)
     if (!TicketCancellation) {
         return res.status(500)
             .json(
@@ -283,12 +259,12 @@ const CancelBooking = AsnycHandler(async (req, res) => {
 
     return res.status(200)
         .json(
-            new ApiResponse(200, { success: true, data: TicketCancellation }, "Tickit Cancel SuccessFully")
+            new ApiResponse(200, { success: true, data: TicketCancellation.data }, "Tickit Cancel SuccessFully")
         )
 })
 
 //complete
-const Citycode = AsnycHandler(async (req, res) => {
+const Citycode = asyncHandler(async (req, res) => {
     const { cityName } = req.body;
 
     if (!cityName) {
@@ -316,7 +292,7 @@ const Citycode = AsnycHandler(async (req, res) => {
 })
 
 //complete
-const getCitylist = AsnycHandler(async (req, res) => {
+const getCitylist = asyncHandler(async (req, res) => {
     const get = await sendPostRequest('http://uat.etrav.in/BusHost/BusAPIService.svc/JSONService/Bus_CityList', {}, {
         Auth_Header: authHeaders()
 
@@ -328,7 +304,7 @@ const getCitylist = AsnycHandler(async (req, res) => {
 })
 //Some new feture Added Sone
 
-const AddBalance = AsnycHandler(async (req, res) => {
+const AddBalance = asyncHandler(async (req, res) => {
     const {RefNo} = req.body
     const addbalance = await sendPostRequest(`http://uat.etrav.in/tradehost/TradeAPIService.svc/JSONService/AddPayment`, {}, {
         Auth_Header: authHeaders(),

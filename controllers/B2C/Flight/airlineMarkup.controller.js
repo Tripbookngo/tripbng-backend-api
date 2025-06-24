@@ -1,7 +1,7 @@
 import { AirLineWiseMarkup } from "../../../models/B2C/Flight/airlineMarkup.model.js";
 import {ApiResponse} from "../../../utils/ApiResponse.js";
 import { isNull } from "../../../utils/isNull.js";
-import { AsnycHandler } from "../../../utils/AsnycHandler.js"
+import { asyncHandler } from "../../../utils/asyncHandler.js"
 
 // Markup type values (indexed)
 const markupTypes = [
@@ -39,7 +39,7 @@ const formatMarkup = (markup) => {
 };
 
 // CREATE
-export const createAirlineMarkup = AsnycHandler(async (req, res) => {
+export const createAirlineMarkup = asyncHandler(async (req, res) => {
     const { carrier, domestic_one_way, domestic_round_way, international_one_way, international_round_way } = req.body;
 
     if (isNull([carrier])) {
@@ -71,7 +71,7 @@ export const createAirlineMarkup = AsnycHandler(async (req, res) => {
 });
 
 // READ ALL
-export const getAllAirlineMarkups = AsnycHandler(async (req, res) => {
+export const getAllAirlineMarkups = asyncHandler(async (req, res) => {
     const markups = await AirLineWiseMarkup.find();
     const formatted = markups.map(formatMarkup);
 
@@ -81,7 +81,7 @@ export const getAllAirlineMarkups = AsnycHandler(async (req, res) => {
 });
 
 // READ ONE
-export const getAirlineMarkupById = AsnycHandler(async (req, res) => {
+export const getAirlineMarkupById = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
     const markup = await AirLineWiseMarkup.findById(id);
@@ -97,7 +97,7 @@ export const getAirlineMarkupById = AsnycHandler(async (req, res) => {
 });
 
 // UPDATE
-export const updateAirlineMarkup = AsnycHandler(async (req, res) => {
+export const updateAirlineMarkup = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
     const segments = [
