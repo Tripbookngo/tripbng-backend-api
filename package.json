@@ -26,10 +26,12 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+    "juice": "^11.0.1",
     "mongoose": "^8.7.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.10.0",
+    "nodemon": "^3.1.10",
     "payu-sdk-node-index-fixed": "^1.1.1",
     "payu-websdk": "^1.2.0",
     "twilio": "^5.4.3"
