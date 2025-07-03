@@ -11,7 +11,6 @@ import { LoginDetails } from '../models/LoginDetails.models.js';
 import { sendMail } from '../utils/sendMail.js';
 import { EmailVerification } from '../models/EmailVerification.js';
 import { isNull } from '../utils/formCheck.js';
-import juice from "juice"
 const options = {
   httpOnly: true,
   secure: true,
@@ -281,7 +280,7 @@ const login = asyncHandler(async (req, res) => {
   </body>
 </html>`
    
-    // const htmlWithInlineCSS = juice(htmltemplate);
+    
     let user = await User.findOne({ email: contact_feild });
     if (!user) {
       user = await User.create({ email: contact_feild });
