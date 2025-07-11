@@ -35,8 +35,8 @@ export const errorMessage = (error) => {
 
 export const authHeaders = () => {
   return {
-    UserId: process.env.LIVE_FLIGHT_ID,
-    Password: process.env.LIVE_FLIGHT_PASS,
+    UserId: process.env.LIVE_ID,
+    Password: process.env.LIVE_PASS,
     IP_Address: process.env.ETRAV_IP,
     Request_Id: process.env.ETRAV_REQUESTID,
     IMEI_Number: process.env.ETRAV_IMEI_NO,
